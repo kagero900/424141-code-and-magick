@@ -162,7 +162,7 @@
 
 <footer>
   <p><a href="http://htmlacademy.ru" class="footer-link"><img src="img/htmlacademy-logo.png" alt="HTML Academy"
-                                                              width="130">Сделано в HTML Academy</a>в 2017 году</p>
+                                                              width="130">Сделано в HTML Academy</a>в 2018 году</p>
 </footer>
 
 <template id="similar-wizard-template" style="display: none">
@@ -181,6 +181,31 @@
   </div>
 </template>
 
+<script>
+  var fireballSize = 22;
+  var wizardSpeed = 3;
+  var wizardWidth = 70;
+
+//Функция управления скоростью фаербола в зависимости от направления ветра
+  var getFireballSpeed = function (left) {
+    return left ? 5 : 2;
+  };
+
+//Функция расчета высоты мага пропорционально его ширине
+  var getWizardHeight = function () {
+    return 1.337 * wizardWidth;
+  };
+
+//Функция задания положения мага по горизонтали
+  var getWizardX = function (width) {
+    return (width - wizardWidth) / 2;
+  }
+
+//Функция задания положения мага по вертикали
+  var getWizardY = function (height) {
+    return height / 3 * 2 - getWizardHeight();
+  }
+</script>
 <script src="js/game.js"></script>
 
 </body>

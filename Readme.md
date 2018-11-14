@@ -1,7 +1,7 @@
 # Учебный проект «Код и Магия» [![Build status][travis-image]][travis-url]
 
 * Студент: [Любовь Чистова](https://up.htmlacademy.ru/javascript/16/user/424141).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Зверобоев](https://htmlacademy.ru/profile/zveroboev).
 
 ---
 
