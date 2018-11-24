@@ -1,16 +1,6 @@
 'use strict';
 
-var userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
-
-document.querySelector('.setup-similar').classList.remove('hidden');
-
-var similarListElement = document.querySelector('.setup-similar-list');
-var similarWizardTemplate = document.querySelector('#similar-wizard-template')
-  .content
-  .querySelector('.setup-similar-item');
-
-var Wizards = {
+var Wizard = {
   NAMES: ['Иван', 'Хуан Себастьян', 'Мария',
     'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'],
   SURNAMES: ['да Марья', 'Верон', 'Мирабелла',
@@ -22,6 +12,13 @@ var Wizards = {
   COUNT: 4
 };
 
+var userDialog = document.querySelector('.setup');
+var similarList = userDialog.querySelector('.setup-similar');
+var similarListElement = similarList.querySelector('.setup-similar-list');
+var similarWizardTemplate = document.querySelector('#similar-wizard-template')
+  .content
+  .querySelector('.setup-similar-item');
+
 var getRandomElement = function (arr) {
   var rand = Math.floor(Math.random() * arr.length);
   return arr[rand];
@@ -30,17 +27,15 @@ var getRandomElement = function (arr) {
 var generateWizards = function () {
   var wizards = [];
 
-  for (var i = 0; i < Wizards.COUNT; i++) {
+  for (var i = 0; i < Wizard.COUNT; i++) {
     wizards.push({
-      name: getRandomElement(Wizards.NAMES) + ' ' + getRandomElement(Wizards.SURNAMES),
-      coatColor: getRandomElement(Wizards.COAT_COLORS),
-      eyesColor: getRandomElement(Wizards.EYES_COLORS)
+      name: getRandomElement(Wizard.NAMES) + ' ' + getRandomElement(Wizard.SURNAMES),
+      coatColor: getRandomElement(Wizard.COAT_COLORS),
+      eyesColor: getRandomElement(Wizard.EYES_COLORS)
     });
   }
   return wizards;
 };
-
-var wizards = generateWizards();
 
 var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
@@ -52,15 +47,25 @@ var renderWizard = function (wizard) {
   return wizardElement;
 };
 
-var createSimilarWizards = function () {
+var createSimilarWizards = function (arr) {
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < wizards.length; i++) {
-    fragment.appendChild(renderWizard(wizards[i]));
+  for (var i = 0; i < arr.length; i++) {
+    fragment.appendChild(renderWizard(arr[i]));
   }
 
   similarListElement.appendChild(fragment);
 };
 
-createSimilarWizards();
+var removeClass = function (element, className) {
+  element.classList.remove(className);
+};
 
+var openUserDialog = function () {
+  var wizards = generateWizards();
+  createSimilarWizards(wizards);
+  removeClass(userDialog, 'hidden');
+  removeClass(similarList, 'hidden');
+};
+
+openUserDialog();
