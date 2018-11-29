@@ -68,10 +68,41 @@ var openUserDialog = function () {
 
 openUserDialog();
 
-setupOpen.addEventListener('click', function () {
+var openPopup = function () {
   userDialog.classList.remove('hidden');
+};
+
+var closePopup = function () {
+  userDialog.classList.add('hidden');
+};
+
+setupOpen.addEventListener('click', function () {
+  openPopup();
+
+  document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 27) {
+      userDialog.classList.add('hidden');
+    }
+  });
+});
+
+setupOpen.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    openPopup();
+  }
+  /* document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 27) {
+      closePopup();
+    }
+  }); */
 });
 
 setupClose.addEventListener('click', function () {
-  userDialog.classList.add('hidden');
+  closePopup();
+});
+
+setupClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    closePopup();
+  }
 });
