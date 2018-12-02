@@ -13,6 +13,11 @@ var Wizard = {
   COUNT: 4
 };
 
+var KEY_CODE = {
+  ENTER: 13,
+  ESC: 27
+};
+
 var userDialog = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = userDialog.querySelector('.setup-close');
@@ -62,29 +67,31 @@ var createSimilarWizards = function (arr) {
   similarListElement.appendChild(fragment);
 };
 
-var openUserDialog = function () { // пожалуй, надо переименовать, например в showSimilarWizards
+var showSimilarWizards = function () {
   var wizards = generateWizards();
   createSimilarWizards(wizards);
-  // userDialog.classList.remove('hidden');
   similarList.classList.remove('hidden');
 };
 
-openUserDialog();
+showSimilarWizards();
 
 var popupEscPressHandler = function (evt) {
-  if (evt.keyCode === 27) {
-    userDialog.classList.add('hidden');
+  if (evt.keyCode === KEY_CODE.ESC) {
+    closePopup();
   }
 };
 
 var openPopup = function () {
   userDialog.classList.remove('hidden');
+
   document.addEventListener('keydown', popupEscPressHandler);
 };
 
 var closePopup = function () {
-  userDialog.classList.add('hidden');
-  document.removeEventListener('keydown', popupEscPressHandler);
+  if (userInput !== document.activeElement) {
+    userDialog.classList.add('hidden');
+    document.removeEventListener('keydown', popupEscPressHandler);
+  }
 };
 
 setupOpen.addEventListener('click', function () {
@@ -92,7 +99,7 @@ setupOpen.addEventListener('click', function () {
 });
 
 setupOpen.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
+  if (evt.keyCode === KEY_CODE.ENTER) {
     openPopup();
   }
 });
@@ -102,20 +109,10 @@ setupClose.addEventListener('click', function () {
 });
 
 setupClose.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
+  if (evt.keyCode === KEY_CODE.ENTER) {
     closePopup();
   }
 });
-
-
-// Если фокус находится на форме ввода имени, то окно по ESC закрываться не должно.
-userInput.addEventListener('focus', function () {
-  document.removeEventListener('keydown', popupEscPressHandler); // это ж кусок функции
-});
-userInput.addEventListener('blur', function () {
-  document.addEventListener('keydown', popupEscPressHandler); // и опять кусок функции
-});
-
 
 // Изменение цвета мантии, глаз и фаербола по клику на соответствующем элементе
 var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
@@ -140,7 +137,7 @@ var changeFireballColor = function () {
   userDialog.querySelector('input[name="fireball-color"]').value = wizardFireballColor;
 };
 
-wizardCoat.addEventListener('click', function () { // так вообще можно?))
+wizardCoat.addEventListener('click', function () {
   changeCoatColor();
 });
 
