@@ -83,7 +83,6 @@ var popupEscPressHandler = function (evt) {
 
 var openPopup = function () {
   userDialog.classList.remove('hidden');
-
   document.addEventListener('keydown', popupEscPressHandler);
 };
 
@@ -94,9 +93,7 @@ var closePopup = function () {
   }
 };
 
-setupOpen.addEventListener('click', function () {
-  openPopup();
-});
+setupOpen.addEventListener('click', openPopup);
 
 setupOpen.addEventListener('keydown', function (evt) {
   if (evt.keyCode === KEY_CODE.ENTER) {
@@ -104,9 +101,7 @@ setupOpen.addEventListener('keydown', function (evt) {
   }
 });
 
-setupClose.addEventListener('click', function () {
-  closePopup();
-});
+setupClose.addEventListener('click', closePopup);
 
 setupClose.addEventListener('keydown', function (evt) {
   if (evt.keyCode === KEY_CODE.ENTER) {
@@ -115,36 +110,46 @@ setupClose.addEventListener('keydown', function (evt) {
 });
 
 // Изменение цвета мантии, глаз и фаербола по клику на соответствующем элементе
-var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
-var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
-var wizardFireball = document.querySelector('.setup-fireball-wrap');
+var setupPlayer = userDialog.querySelector('.setup-player');
+
+var wizardCoat = setupPlayer.querySelector('.wizard-coat');
+var wizardEyes = setupPlayer.querySelector('.wizard-eyes');
+var wizardFireball = setupPlayer.querySelector('.setup-fireball-wrap');
+
+var inputCoat = setupPlayer.querySelector('input[name="coat-color"]');
+var inputEyes = setupPlayer.querySelector('input[name="eyes-color"]');
+var inputFireball = setupPlayer.querySelector('input[name="fireball-color"]');
+
+var makeArrayCount = function (arr) {
+  var i = 0;
+  return function () {
+    i++;
+    if (i === arr.length) {
+      i = 0;
+    }
+    return arr[i];
+  };
+};
+
+var coatColorCounter = makeArrayCount(Wizard.COAT_COLORS);
+var eyesColorCounter = makeArrayCount(Wizard.EYES_COLORS);
+var fireballColorCounter = makeArrayCount(Wizard.FIREBALL_COLORS);
+
 
 var changeCoatColor = function () {
-  var wizardCoatColor = getRandomElement(Wizard.COAT_COLORS);
-  wizardCoat.style.fill = wizardCoatColor;
-  userDialog.querySelector('input[name="coat-color"]').value = wizardCoatColor;
+  wizardCoat.style.fill = inputCoat.value = coatColorCounter();
 };
 
 var changeEyesColor = function () {
-  var wizardEyesColor = getRandomElement(Wizard.EYES_COLORS);
-  wizardEyes.style.fill = wizardEyesColor;
-  userDialog.querySelector('input[name="eyes-color"]').value = wizardEyesColor;
+  wizardEyes.style.fill = inputEyes.value = eyesColorCounter();
 };
 
 var changeFireballColor = function () {
-  var wizardFireballColor = getRandomElement(Wizard.FIREBALL_COLORS);
-  wizardFireball.style.backgroundColor = wizardFireballColor;
-  userDialog.querySelector('input[name="fireball-color"]').value = wizardFireballColor;
+  wizardFireball.style.backgroundColor = inputFireball.value = fireballColorCounter();
 };
 
-wizardCoat.addEventListener('click', function () {
-  changeCoatColor();
-});
+wizardCoat.addEventListener('click', changeCoatColor);
 
-wizardEyes.addEventListener('click', function () {
-  changeEyesColor();
-});
+wizardEyes.addEventListener('click', changeEyesColor);
 
-wizardFireball.addEventListener('click', function () {
-  changeFireballColor();
-});
+wizardFireball.addEventListener('click', changeFireballColor);
