@@ -120,20 +120,19 @@ var inputCoat = setupPlayer.querySelector('input[name="coat-color"]');
 var inputEyes = setupPlayer.querySelector('input[name="eyes-color"]');
 var inputFireball = setupPlayer.querySelector('input[name="fireball-color"]');
 
-var makeArrayCount = function (arr) {
-  var i = 0;
+var makeCounter = function (arr) {
+  var i = 1;
   return function () {
-    i++;
     if (i === arr.length) {
       i = 0;
     }
-    return arr[i];
+    return arr[i++];
   };
 };
 
-var coatColorCounter = makeArrayCount(Wizard.COAT_COLORS);
-var eyesColorCounter = makeArrayCount(Wizard.EYES_COLORS);
-var fireballColorCounter = makeArrayCount(Wizard.FIREBALL_COLORS);
+var coatColorCounter = makeCounter(Wizard.COAT_COLORS);
+var eyesColorCounter = makeCounter(Wizard.EYES_COLORS);
+var fireballColorCounter = makeCounter(Wizard.FIREBALL_COLORS);
 
 
 var changeCoatColor = function () {
